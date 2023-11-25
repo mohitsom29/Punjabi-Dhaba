@@ -1,13 +1,11 @@
-import './index.css'
+import LandingPage from './components/LandingPage';
 function App() {
 
   return (
     <>
-     <div className="text-3xl bold text-red-300">
-        <h1>Hello React!😀</h1>
-      </div>
+     <LandingPage/>
     </>
-  )
+  );
 }
 
 export default App
