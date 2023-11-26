@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useState,useRef } from "react"
 import Footer from "./Footer";
 import { LocateFixed, MapPin } from "lucide-react";
 import { useDispatch } from "react-redux";
@@ -58,14 +58,14 @@ const LandingPage = () => {
     <>
       <section className="relative flex">
         <div className="h-full w-full md:h-[540px]  lg:w-[70%] xl:w-[55%]">
-            <div className="ml-4 md:ml-8 lg:ml-16  md:p-8 p-8 lg:p-8 xl:ml-2">
-          <div className="flex gap-0 md:gap-[13rem]  items-center ">
-            <div className="">
+          <div className="ml-4 md:ml-8 lg:ml-16  md:p-8 p-8 lg:p-8 xl:ml-2">
+           <div className="flex gap-0 md:gap-[13rem]  items-center ">
+            <div>
               <img
                 src="src/assets/Vanakkam.png"
                 className="w-[15rem] h-auto"
                 alt="web-logo"
-                srcset=""
+                srcSet=""
               />
             </div>
             <div className="hidden md:flex  gap-4">
@@ -151,7 +151,7 @@ const LandingPage = () => {
         
         <div
           className="absolute bg-no-repeat h-full bg-cover bg-[100%] bg-[hsla(26,5%,70%,0.2)] left-[calc(50%_+_80px)] right-0 top-0
-          bg-[url('../src/assets/main-banner.webp')] 
+          bg-[url('src/assets/main-banner.webp')] 
           w-0 md:w-[0%] lg:w-[42%] xl:w-[43.6%]"
         ></div>
       </section>
@@ -163,7 +163,7 @@ const LandingPage = () => {
               src="src/assets/banner.png"
               className="w-[12rem] h-auto"
               alt="web-logo"
-              srcset=""
+              srcSet=""
             />
           </div>
           <h2 className="text-xl font-semibold">No Minimum Order</h2>
@@ -180,7 +180,7 @@ const LandingPage = () => {
               src="src/assets/mid-banner1.png"
               className="w-[15rem] h-auto"
               alt="web-logo"
-              srcset=""
+              srcSet=""
             />
           </div>
           <h2 className="text-xl font-semibold">Live Order Tracking</h2>
@@ -197,7 +197,7 @@ const LandingPage = () => {
               src="src/assets/mid-banner2.png"
               className="w-[15rem] h-auto"
               alt="web-logo"
-              srcset=""
+              srcSet=""
             />
           </div>
           <h2 className="text-xl font-semibold">Lightning-Fast Delivery</h2>
