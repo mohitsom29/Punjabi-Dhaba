@@ -1,10 +1,10 @@
-import LandingPage from './components/LandingPage';
 import HomeShimmer from './components/HomeShimmer';
+import LandingPage from './components/LandingPage';
 function App() {
 
   return (
     <>
-     <HomeShimmer/>
+     <LandingPage/>
     </>
   );
 }

@@ -1,8 +1,48 @@
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import Footer from "./Footer";
-import { LocateFixed } from "lucide-react";
+import { LocateFixed, MapPin } from "lucide-react";
+import { useDispatch } from "react-redux";
+
+const debounce = (func,wait) => {
+  let timeout;
+  return (...args) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      func(...args);
+    },wait);
+  };
+};
 
 const LandingPage = () => {
+    const dispatch = useDispatch();
+    const searchRef = useRef(null);
+    const [searchData,setSearchData] = useState([]);
+
+    const fetchAddressBySearch = async (placeId) => {
+       const res = await fetch(`${FETCH_ADDRESS_URL}${placeId}`);
+       const {data} = await res.json();
+       console.log(data);
+       const city = data[0]?.address_components?.filter(
+        (item) => item?.types[0] === 'city'
+       );
+       dispatch(
+        addLocation({
+          lat: data[0]?.geometry?.location?.lat,
+          long: data[1]?.geometry?.location?.long,
+          city: city[0]?.long_name,
+          address: data[0]?.formatted_address,
+        })
+       );
+       window.location.reload();
+    };
+
+    const handleSearch = useCallback(
+      debounce(
+        (searchQuery) => useSearchLocation(searchQuery,setSearchData),500,
+      ),
+      [],
+    );
+
     const [content,setContent] = useState("unexpected guests?");
 
     useEffect(() => {
@@ -45,7 +85,7 @@ const LandingPage = () => {
                 POPULAR CITIES IN INDIA
               </h2>
               <div className="relative mt-8 md:h-[60px]">
-                <form className="flex h-full flex-col md:flex-row" action="" onSubmit="">
+                <form className="flex h-full flex-col md:flex-row" onSubmit={(e) => e.preventDefault()}>
                   <label
                     htmlFor="locationInput"
                     className="relative flex h-full flex-1"
@@ -57,9 +97,12 @@ const LandingPage = () => {
                       id="locationInput"
                       maxLength="40"
                       placeholder="Enter your delivery location"
+                      ref={searchRef}
+                      onChange={() => handleSearch(searchRef.current?.value)}
                     />
                     <button
                       className="absolute right-0 top-[1px] mr-2 flex cursor-pointer items-center gap-x-1 bg-white px-2.5 py-3 font-medium text-[#535665] hover:bg-[#e9e9eb] md:top-2"
+                      onClick={() => useCurrentLocation(dispatch,addLocation)}
                     >
                       <LocateFixed/>
                       Locate Me
@@ -69,6 +112,22 @@ const LandingPage = () => {
                     FIND FOOD
                   </button>
                 </form>
+                { searchData && (
+                  <div className="absolute top-[48px] z-[10] w-full border border-t-0 border-solid border-[#d4d5d9] bg-white shadow-[0_1px_10px_0_rgba(40,44,63,0.1)] md:top-[60px]">
+                  {searchData?.map((item) => {
+                      return (
+                        <button key={item?.place_id} className="group relative flex min-h-[40px] w-full cursor-pointer text-left font-normal text-[#535665]" onClick={() => fetchAddressBySearch(item?.place_id)}>
+                          <span className="p-6 text-xl group-hover:text-defColor">
+                            <MapPin/>
+                          </span>
+                          <span className="block h-full w-full overflow-hidden text-ellipsis whitespace-nowrap border-b border-dashed border-b-[#bebfc5] py-6 text-sm font-medium group-hover:text-defColor">
+                         {item?.description}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
               <div
                 className="mt-4 w-[90%] flex flex-wrap gap-x-2 text-sm font-extrabold text-defGray 
