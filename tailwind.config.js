@@ -4,7 +4,13 @@ export default {
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        orageColor: '#fc8019',
+        blackColor: '#282c3f',
+        grayColor: '#686b78',
+      },
+    },
   },
   plugins: [],
 }
